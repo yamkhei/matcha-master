@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🍵 Matcha Master 🍵</title>
+  <title>Mash a touchscreen</title>
   <style>
     body {
       background-color: #fceee2;
@@ -58,6 +59,7 @@
 </head>
 <body>
   <h1>🍵 Matcha Master 🍵</h1>
+  <h1>Mash a touchscreen</h1>
   <div id="game">
     <p class="matcha" id="matcha">🥣</p>
     <p id="timer">Time: 8s</p>
@@ -85,9 +87,9 @@
     const scoreLog = document.getElementById('scoreLog');
 
     function updateMatchaFace() {
-      if (count < 20) matchaDisplay.textContent = '🥣';
-      else if (count < 40) matchaDisplay.textContent = '🥣🍃';
-      else if (count < 60) matchaDisplay.textContent = '🥣🍃🍃';
+      if (count < 60) matchaDisplay.textContent = '🥣';
+      else if (count < 90) matchaDisplay.textContent = '🥣🍃';
+      else if (count < 110) matchaDisplay.textContent = '🥣🍃🍃';
       else matchaDisplay.textContent = '🥣🍃✨✨';
     }
 
