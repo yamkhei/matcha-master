@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍵 Matcha Master 🍵</title>
+  <style>
+    body {
+      background-color: #fceee2;
+      font-family: monospace;
+      text-align: center;
+      color: #7b3e19;
+      margin: 0;
+      padding: 20px;
+    }
+    #game {
+      margin-top: 30px;
+    }
+    .matcha {
+      font-size: 60px;
+    }
+    button {
+      font-size: 20px;
+      padding: 12px 24px;
+      margin: 20px 0;
+      border: none;
+      background-color: #7b3e19;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #character {
+      width: 160px;
+      margin: 20px auto;
+      display: none;
+      transition: transform 0.3s ease;
+    }
+    .shake {
+      animation: shake 0.4s;
+    }
+    @keyframes shake {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-8px); }
+      50% { transform: translateY(5px); }
+      75% { transform: translateY(-3px); }
+      100% { transform: translateY(0); }
+    }
+    #result {
+      font-size: 18px;
+      margin-top: 10px;
+      min-height: 30px;
+    }
+    #scoreLog {
+      margin-top: 30px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍵 Matcha Master 🍵</h1>
+  <div id="game">
+    <p class="matcha" id="matcha">🥣</p>
+    <p id="timer">Time: 8s</p>
+    <p id="count">Whisk Count: 0</p>
+    <button id="startBtn">Start Whisking!</button>
+    <br>
+    <img id="character" src="" alt="Oiran Reaction">
+    <p id="result"></p>
+    <div id="scoreLog"></div>
+  </div>
+
+  <script>
+    let count = 0;
+    let timeLeft = 8;
+    let timerInterval;
+    let gameActive = false;
+    let scoreHistory = [];
+
+    const countDisplay = document.getElementById('count');
+    const timerDisplay = document.getElementById('timer');
+    const resultDisplay = document.getElementById('result');
+    const matchaDisplay = document.getElementById('matcha');
+    const startBtn = document.getElementById('startBtn');
+    const character = document.getElementById('character');
+    const scoreLog = document.getElementById('scoreLog');
+
+    function updateMatchaFace() {
+      if (count < 20) matchaDisplay.textContent = '🥣';
+      else if (count < 40) matchaDisplay.textContent = '🥣🍃';
+      else if (count < 60) matchaDisplay.textContent = '🥣🍃🍃';
+      else matchaDisplay.textContent = '🥣🍃✨✨';
+    }
+
+    function endGame() {
+      clearInterval(timerInterval);
+      gameActive = false;
+      startBtn.disabled = false;
+      startBtn.style.display = 'inline-block';
+      matchaDisplay.textContent = '🍸';
+
+      let image = '';
+      let message = '';
+
+      if (count >= 80) {
+        image = 'super_happy.png';
+        message = '"Could anyone be this happy...? ♡"';
+      } else if (count >= 60) {
+        image = 'happy.png';
+        message = '"Simply delightful... ♡"';
+      } else if (count >= 40) {
+        image = 'smile.png';
+        message = '"Quite a fine flavour, I must say."';
+      } else if (count >= 20) {
+        image = 'natural.png';
+        message = '"Hmm… still a bit powdery, perhaps."';
+      } else {
+        image = 'disgust.png';
+        message = '"Oh no... that’s a bit too bitter, dear."';
+      }
+
+      character.src = image;
+      character.style.display = 'block';
+      character.classList.add('shake');
+      setTimeout(() => {
+        character.classList.remove('shake');
+        resultDisplay.textContent = message;
+      }, 800);
+
+      scoreHistory.push(count);
+      updateScoreLog();
+    }
+
+    function updateScoreLog() {
+      scoreLog.innerHTML = '<strong>Previous Scores:</strong><br>' +
+        scoreHistory.slice(-5).reverse().map((c, i) => `#${scoreHistory.length - i}: ${c} times`).join('<br>');
+    }
+
+    function startGame() {
+      count = 0;
+      timeLeft = 8;
+      gameActive = true;
+      resultDisplay.textContent = '';
+      startBtn.disabled = true;
+      startBtn.style.display = 'none';
+      character.style.display = 'none';
+      countDisplay.textContent = 'Whisk Count: 0';
+      timerDisplay.textContent = 'Time: 8s';
+      matchaDisplay.textContent = '🥣';
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `Time: ${timeLeft}s`;
+        if (timeLeft <= 0) endGame();
+      }, 1000);
+    }
+
+    function increaseCount() {
+      if (gameActive) {
+        count++;
+        countDisplay.textContent = `Mix Count: ${count}`;
+        updateMatchaFace();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') increaseCount();
+    });
+
+    document.addEventListener('click', increaseCount);
+    document.addEventListener('touchstart', increaseCount);
+
+    startBtn.addEventListener('click', startGame);
+  </script>
+</body>
+</html>
