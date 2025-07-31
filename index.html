@@ -87,9 +87,9 @@
     const scoreLog = document.getElementById('scoreLog');
 
     function updateMatchaFace() {
-      if (count < 60) matchaDisplay.textContent = '🥣';
-      else if (count < 90) matchaDisplay.textContent = '🥣🍃';
-      else if (count < 110) matchaDisplay.textContent = '🥣🍃🍃';
+      if (count < 90) matchaDisplay.textContent = '🥣';
+      else if (count < 100) matchaDisplay.textContent = '🥣🍃';
+      else if (count < 120) matchaDisplay.textContent = '🥣🍃🍃';
       else matchaDisplay.textContent = '🥣🍃✨✨';
     }
 
@@ -103,16 +103,16 @@
       let image = '';
       let message = '';
 
-      if (count >= 120) {
+      if (count >= 130) {
         image = 'super_happy.png';
         message = '"Could anyone be this happy...? ♡"';
-      } else if (count >= 100) {
+      } else if (count >= 121) {
         image = 'happy.png';
         message = '"Simply delightful... ♡"';
-      } else if (count >= 80) {
+      } else if (count >= 101) {
         image = 'smile.png';
         message = '"Quite a fine flavour, I must say."';
-      } else if (count >= 60) {
+      } else if (count >= 91) {
         image = 'natural.png';
         message = '"Hmm… still a bit powdery, perhaps."';
       } else {
